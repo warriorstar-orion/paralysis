@@ -1,0 +1,33 @@
+[project]
+name = "paralysis"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "avulto>=0.0.11",
+    "jsonargparse>=4.33.1",
+    "largestinteriorrectangle>=0.2.1",
+    "llvmlite==0.43.0",
+    "loguru>=0.7.2",
+    "mysqlclient>=2.2.4",
+    "numba==0.60.0",
+    "numpy==2.0",
+    "opencv-python>=4.10.0.84",
+    "pandas>=2.2.3",
+    "pillow>=10.4.0",
+    "rasterio>=1.4.0",
+    "requests-cache>=1.2.1",
+    "requests-ratelimiter>=0.7.0",
+    "shapely>=2.0.6",
+    "sqlalchemy>=2.0.35",
+]
+
+[project.scripts]
+space_ruin_map = "paralysis.tools.space_ruin_map:command"
+wiki_areamap = "paralysis.tools.wiki_areamap:command"
+blackbox = "paralysis.blackbox.cli:command"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
