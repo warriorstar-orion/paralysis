@@ -1,5 +1,6 @@
 from functools import cache
-from typing import List
+import json
+from typing import List, Optional
 
 # coding: utf-8
 from sqlalchemy import (
@@ -15,7 +16,10 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.mysql import INTEGER, JSON, MEDIUMTEXT, SMALLINT, TINYINT
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
+from sqlalchemy import Engine
+
+from paralysis.network import CachedLimiterSession
 
 Base = declarative_base()
 metadata = Base.metadata
@@ -162,6 +166,56 @@ class Round(Base):
 
     def __repr__(self):
         return f"<Round#{self.id} [{self.start_datetime.strftime('%Y-%m-%d')}] {self.game_mode}/{self.map_name}>"
+
+    @staticmethod
+    def download(
+        engine: Engine, round_id: str, rq_session: CachedLimiterSession, api_url: str
+    ) -> Optional["Round"]:
+        with Session(engine, expire_on_commit=False) as session:
+            if session.get(Round, round_id):
+                return False
+
+            mtd = rq_session.get(f"{api_url}/stats/metadata/{round_id}").json()
+            pct = rq_session.get(f"{api_url}/stats/playercounts/{round_id}").json()
+            bbl = rq_session.get(f"{api_url}/stats/blackbox/{round_id}").json()
+
+            rnd = Round(
+                id=mtd["round_id"],
+                initialize_datetime=mtd["init_datetime"],
+                start_datetime=mtd["start_datetime"],
+                shutdown_datetime=mtd["shutdown_datetime"],
+                end_datetime=mtd["end_datetime"],
+                commit_hash=mtd["commit_hash"],
+                game_mode=mtd["game_mode"],
+                game_mode_result=mtd["game_mode_result"],
+                end_state=mtd["end_state"],
+                map_name=mtd["map_name"],
+                server_id=mtd["server_id"],
+                server_ip=0,
+                server_port=0,
+            )
+            pcts = list()
+            for dt, ct in pct.items():
+                lp = LegacyPopulation(
+                    playercount=ct, admincount=0, server_id=mtd["server_id"], time=dt
+                )
+                pcts.append(lp)
+            data = list()
+            for row in bbl:
+                fb = Feedback(
+                    round_id=mtd["round_id"],
+                    key_name=row["key_name"],
+                    key_type=row["key_type"],
+                    version=row["version"],
+                    json=json.loads(row["raw_data"]),
+                    datetime=mtd["init_datetime"],
+                )
+                data.append(fb)
+
+            session.add_all([rnd] + pcts + data)
+            session.commit()
+
+            return rnd
 
     def feedback(self, k):
         for x in self.feedbacks:

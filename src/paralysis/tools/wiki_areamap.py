@@ -1,28 +1,31 @@
+import importlib
 from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
 from typing import Optional
-from enum import Enum
-import importlib
 
-from jsonargparse import CLI
-
-# import click
+import click
 import largestinteriorrectangle
-from avulto import DMM, Path as p
+import numpy as np
 import rasterio
 import rasterio.features
-from shapely.geometry import Polygon
-import numpy as np
+from avulto import DMM
+from avulto import Path as p
+from loguru import logger
 from PIL import Image, ImageDraw, ImageFont
+from shapely.geometry import Polygon
+
 
 class LabelType(Enum):
     NONE = 0
     POLYGONS = 1
     ROOMS = 2
 
+
 class OutputType(Enum):
     WIKI = 0
     WEBMAP = 1
+
 
 @dataclass(frozen=True)
 class Area:
@@ -54,6 +57,7 @@ class Colors:
     QUANTUMPAD = "#dbaf6d"  # same as above at the moment
     ASTEROID = "#a09078"
     EMERALD_PLASMA = "#bd5d9c"
+
 
 # The lists of areas are not necessarily in alphabetical order. They may be
 # arranged in certain ways because of inner polygon holes having to be drawn in
@@ -228,7 +232,10 @@ PUBLIC_AREAS = [
     Area("/area/station/public/fitness", Colors.PUBLIC),
     Area("/area/station/hallway/secondary/garden", Colors.PUBLIC, "Garden"),
     Area("/area/station/public/arcade", Colors.PUBLIC),
-    Area("/area/station/public/dorms", Colors.PUBLIC, "Dorms",
+    Area(
+        "/area/station/public/dorms",
+        Colors.PUBLIC,
+        "Dorms",
         map_color_overrides={
             "emeraldstation": Colors.HALLWAY,
         },
@@ -237,7 +244,7 @@ PUBLIC_AREAS = [
     Area("/area/station/public/mrchangs", Colors.PUBLIC),
     Area("/area/station/public/sleep", Colors.PUBLIC, "Cryo"),
     Area("/area/station/public/sleep/secondary", Colors.PUBLIC, "Cryo"),
-    Area( "/area/station/public/storage/emergency/port", Colors.PUBLIC, "Tools"),
+    Area("/area/station/public/storage/emergency/port", Colors.PUBLIC, "Tools"),
     Area("/area/station/public/storage/tools", Colors.PUBLIC, "Tools"),
     Area("/area/station/public/storage/tools/auxiliary", Colors.PUBLIC),
     Area("/area/station/public/toilet/lockerroom", Colors.PUBLIC),
@@ -517,7 +524,12 @@ AREAS = (
 )
 
 
-def render_map(dmm_filename: Path, output_path: Path, output_type: OutputType = OutputType.WIKI, labels: LabelType = LabelType.NONE):
+def render_map(
+    dmm_filename: Path,
+    output_path: Path,
+    output_type: OutputType = OutputType.WIKI,
+    labels: LabelType = LabelType.NONE,
+):
     alpha = "ff"
     zoom_level = 8
     font_size = 16
@@ -528,7 +540,6 @@ def render_map(dmm_filename: Path, output_path: Path, output_type: OutputType = 
         zoom_level = 32
         font_size = 64
         outline = None
-        
 
     dmm = DMM.from_file(dmm_filename)
     font_file = importlib.resources.files("paralysis.resources").joinpath(
@@ -660,7 +671,17 @@ def render_map(dmm_filename: Path, output_path: Path, output_type: OutputType = 
                 )
 
     output_path.mkdir(parents=True, exist_ok=True)
-    image.save(output_path / dmm.filepath.with_suffix(".png").name)
+    image.save(output_path / dmm.filepath.with_suffix(f".{output_type.name}.png").name)
 
-def command():
-    CLI(render_map)
+
+@click.command()
+@click.option("--dmm_file", required=True)
+@click.option("--output_path", required=True)
+@click.option("--output_type", type=click.Choice(["wiki", "webmap"]), default="wiki")
+@click.option(
+    "--labels", type=click.Choice(["rooms", "polygons", "none"]), default="none"
+)
+@logger.catch
+def main(dmm_file: str, output_path: str, output_type: str, labels: str):
+    render_map(Path(dmm_file), Path(output_path), OutputType[output_type.upper()], LabelType[labels.upper()])
+

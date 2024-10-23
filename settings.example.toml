@@ -1,0 +1,13 @@
+[paralysis]
+connection_string = "mysql+mysqldb://root@localhost/parastats_prod"
+api_url = "https://api.paradisestation.org"
+working_directory = "D:/ExternalRepos/ss13_blackbox_tools"
+log_tasks = true
+cache_db = "api_paradisestation_org_roundstat.sqlite"
+paradise_root = "D:/ExternalRepos/third_party/Paradise"
+profile_proc_paths = [
+    "/datum/controller/subsystem/atoms/proc/InitializeAtoms",
+    "/datum/controller/subsystem/mapping/proc/loadLavaland",
+    "/datum/controller/subsystem/mapping/proc/loadStation",
+    "/turf/simulated/mineral/random/Initialize",
+]

@@ -10,14 +10,14 @@ class CachedLimiterSession(CacheMixin, LimiterMixin, Session):
     """
 
 
-def make_cached_limiter_session():
+def make_cached_limiter_session(cache_db: str):
     return CachedLimiterSession(
         per_minute=500,
         per_hour=3600,
-        cache_name="api_paradisestation_org_roundstat.sqlite",
+        cache_name=cache_db,
         bucket_class=SQLiteBucket,
         bucket_kwargs={
-            "path": "api_paradisestation_org_roundstat.sqlite",
+            "path": cache_db,
             "isolation_level": "EXCLUSIVE",
             "check_same_thread": False,
         },
