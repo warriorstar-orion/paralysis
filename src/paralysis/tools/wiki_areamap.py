@@ -381,6 +381,7 @@ SCIENCE_AREAS = [
     Area("/area/station/science/toxins/mixing", Colors.SCIENCE, "Toxins"),
     Area("/area/station/science/research", Colors.SCIENCE),
     Area("/area/station/science/break_room", Colors.SCIENCE),
+    Area("/area/station/science/testrange", Colors.SCIENCE),
 ]
 
 AI_SAT_AREAS = [
