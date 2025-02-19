@@ -548,7 +548,7 @@ def render_map(
 
     fnt = ImageFont.truetype(font_file, font_size)
     image = Image.new(
-        size=(int(dmm.extents[0] * zoom_level), int(dmm.extents[1] * zoom_level)),
+        size=(int(dmm.size.x * zoom_level), int(dmm.size.y * zoom_level)),
         mode="RGBA",
     )
     draw = ImageDraw.Draw(image)
@@ -558,7 +558,7 @@ def render_map(
         area_points = set()
         for coord in dmm.coords():
             tile = dmm.tiledef(*coord)
-            if tile.area_path() == Area.area:
+            if tile.area_path == Area.area:
                 area_points.add((coord[0], coord[1]))
 
         myarray = np.zeros((256, 256))
@@ -584,7 +584,7 @@ def render_map(
             # If our first coordinate is space, this is an inner hole in a
             # polygon that's just space. We want to render them last because
             # transparent polygons will still replace filled polygons
-            if tiledef.area_path().child_of("/area/space"):
+            if tiledef.area_path.child_of("/area/space"):
                 polygon_process_order.append(polygon)
             else:
                 polygon_process_order.insert(0, polygon)
@@ -597,11 +597,11 @@ def render_map(
             color = f"{Area.color}{alpha}"
 
             tiledef = dmm.tiledef(*[int(x) for x in reversed(polygon[0][0])], 1)
-            if tiledef.area_path().child_of(
+            if tiledef.area_path.child_of(
                 "/area/space"
-            ) and not tiledef.area_path().child_of("/area/space/nearstation/disposals"):
+            ) and not tiledef.area_path.child_of("/area/space/nearstation/disposals"):
                 color = "#00000000"
-            elif tiledef.area_path() != Area.area:
+            elif tiledef.area_path != Area.area:
                 # We can't just skip polygons whose first coordinates don't
                 # contain the same area because we might be looking at the
                 # outside of a polygon which has an inner hole that isn't the
@@ -683,5 +683,9 @@ def render_map(
 )
 @logger.catch
 def main(dmm_file: str, output_path: str, output_type: str, labels: str):
-    render_map(Path(dmm_file), Path(output_path), OutputType[output_type.upper()], LabelType[labels.upper()])
-
+    render_map(
+        Path(dmm_file),
+        Path(output_path),
+        OutputType[output_type.upper()],
+        LabelType[labels.upper()],
+    )

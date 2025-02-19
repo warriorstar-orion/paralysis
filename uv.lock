@@ -29,20 +29,31 @@ wheels = [
 
 [[package]]
 name = "avulto"
-version = "0.0.11"
+version = "0.1.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/14/cd/9b1ce6e5a9def81c2b02600df8b437d055be51f18333ca564560ef156270/avulto-0.0.11.tar.gz", hash = "sha256:fc1abacd59a2b64d0114ee7f1731c8b0f7b6108e5046500164c0d06215533ab7", size = 989203 }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/b2/3c26dee8da48de8313c6f2b9f6639743efbb30780c4f4bf07a3f4fc56705/avulto-0.1.5.tar.gz", hash = "sha256:833407636596d7fb27ad6bd93faa9193ff6f9cf368708491861417e855a46c9e", size = 69093 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/c7/acd47782edcc26748ca04a4e15b0245694b1fac3e9b9a5e8247a4d086d5d/avulto-0.0.11-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:218b68833fe31d454a480a3b44e254e8a11c906210d8a9426ffd4eee8c2c24e8", size = 1572033 },
-    { url = "https://files.pythonhosted.org/packages/2c/90/6a175e305a1bba87ddeac4a055b30922be4017b6824e819528aaa19423c2/avulto-0.0.11-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d806f2aaca74d9f5a0ef127780d8bdb053e6b3b0cfe4bf0f19493b0d49ed919e", size = 1789498 },
-    { url = "https://files.pythonhosted.org/packages/28/68/adf1d5b46e83e47f6c21945e66ad76366eae99ec0f2feea54c0c070c3fee/avulto-0.0.11-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a9b98fa634ebaa4dc1aa2fdad01ea0829190f030edbea6589dbe20d6a123ca45", size = 1788074 },
-    { url = "https://files.pythonhosted.org/packages/a2/3b/215b52f78be15869b268c52f3c35322a8e73bc13c041689970ef441ee784/avulto-0.0.11-cp311-none-win32.whl", hash = "sha256:6884169e51570cb548a0c72543f05615ecaf2056ab04d113f12d37b3c95228d1", size = 1405990 },
-    { url = "https://files.pythonhosted.org/packages/a8/37/25a521327e73b32e5264042622d8a00ac04b40b881a7af4de96caacc48aa/avulto-0.0.11-cp311-none-win_amd64.whl", hash = "sha256:0dd066416e947ac9a74d25b49efa70a64f9c03c7d25d9041f597afd8cfd28f55", size = 1474840 },
-    { url = "https://files.pythonhosted.org/packages/17/79/aa076d59768364b568caeb538c89bb24ad651d859c2445263f58a3deddb7/avulto-0.0.11-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:2d58b03907a0d388276354cf6d53c5291436f402550c4c32ad8741522c8a540f", size = 1573318 },
-    { url = "https://files.pythonhosted.org/packages/4e/21/6eb130f9cffc915e036f9e38b7ea8b21c4643afb96058c80a08bf16f38d8/avulto-0.0.11-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2fb10566c59009af4f6f01a9103bae2062991b7a3f4482044867485988c747f1", size = 1797433 },
-    { url = "https://files.pythonhosted.org/packages/11/a5/9da7cdc0265194a6efe89476a5debe8f8ba476652128e68c4ac94d8de94c/avulto-0.0.11-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c74ca555331e7f46bac177e5a272b0ea722a4ee55168855131078bb5b2229435", size = 1794309 },
-    { url = "https://files.pythonhosted.org/packages/6c/d9/6f737df6077cc52a09c3d5804274d5a86e04f8cbc0d9deb17ebd9b6b01ca/avulto-0.0.11-cp312-none-win32.whl", hash = "sha256:1c3027852181d16839a0c20987bb16cfa3c41127b6bebcbedcef43d11f8c6d36", size = 1395797 },
-    { url = "https://files.pythonhosted.org/packages/4c/75/861000a8909e036f85322614ac0f77ec8a72a9297ef6c52c3256a4049ac6/avulto-0.0.11-cp312-none-win_amd64.whl", hash = "sha256:8bab029c5f90ff78a1aab76a1bf7df77181f540cb06cd49221c6b93006e0733b", size = 1471679 },
+    { url = "https://files.pythonhosted.org/packages/a3/d0/fcd4773832672dcd09ae53842ad79f2d60fbbd469d200bccd07088f70872/avulto-0.1.5-cp311-cp311-macosx_10_12_x86_64.whl", hash = "sha256:7fde40e46cafb2a9953aa36c3d7d6b11131aec4a7aee0a60075829738381206f", size = 2494095 },
+    { url = "https://files.pythonhosted.org/packages/2a/74/32978f19ab7bd2eebc3c09219eca0c2779e4cacd83e8813fa4bc96a8ed8d/avulto-0.1.5-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:018c64b93c0565a2a50fe6171d8f07bc4b498a0ddddf242ee9780ecddcb83ee0", size = 2358245 },
+    { url = "https://files.pythonhosted.org/packages/9f/91/567612331b2877519b3cb855f4aa20129fd059d984d117043b520b25ab0c/avulto-0.1.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:69a1610547fb78b8cf220ace98f708773e273b03c63e2beaab0ab79a011f6d1e", size = 2634213 },
+    { url = "https://files.pythonhosted.org/packages/3a/a5/49b1e958c678a1f555dab9b87b6c2c2836b28ae23404c97d8c8b77ff8021/avulto-0.1.5-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:950ce8645585efbe47ce114ec32c8203dd7412ce81d2fcae50fbcbd4e759fc04", size = 2603024 },
+    { url = "https://files.pythonhosted.org/packages/00/4a/7a1b3476471b8a3517b936e2e3d05586933056cd43ee8e2b15aaaad98e69/avulto-0.1.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:53138f942c72368b389a0c79142dd0d63dc5f9fe56e7af7f7ffb5e99ac87f78c", size = 2740489 },
+    { url = "https://files.pythonhosted.org/packages/8f/30/3fcbf355778894d4ae6a08654d30b5f482d951df18bd568f72d81850cba6/avulto-0.1.5-cp311-cp311-win32.whl", hash = "sha256:d921ee0b07c46defb4bf0ea8db5c6a94131620b8cf94826918b357f01b23f9ee", size = 2090482 },
+    { url = "https://files.pythonhosted.org/packages/6e/5d/9f471e37ab01c548dc0037e51f4ca1bec83efe8d72ba6079aa537828a6a8/avulto-0.1.5-cp311-cp311-win_amd64.whl", hash = "sha256:55be81a4b1b92fa6889b5c08e097039ee62afdad92bb07466833957ec00016d7", size = 2248587 },
+    { url = "https://files.pythonhosted.org/packages/9b/2a/601c77fc6925a2d6da3b60f0daea351f28937e348d4c6b2d1d32b501f548/avulto-0.1.5-cp312-cp312-macosx_10_12_x86_64.whl", hash = "sha256:6b5d48a2ecf6c5e4c2ef461e45c977d82931989d56062984572f6cc1c10d2fd5", size = 2494096 },
+    { url = "https://files.pythonhosted.org/packages/7c/e3/0301fe167f7fef1477f874b0c0c33c852f6eb64ef287660ea09a705e7080/avulto-0.1.5-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:aac4c59e88dd3c2e52e5a4deb477e3d08df9ae0e198a94341bba97e88c3d4f63", size = 2358243 },
+    { url = "https://files.pythonhosted.org/packages/ed/94/e76630083df01eaa1f2960c8c63b264e569319631aba576812a4f18778ea/avulto-0.1.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:271ad76763e68d70ca6f785e1b5daf6f62809ccc63000237ae6ec5302003c585", size = 2634213 },
+    { url = "https://files.pythonhosted.org/packages/0b/2d/1b1760c128ecd1b05d2d9ee18520ce9f13b393eb28feb25d4a3b52aee3a1/avulto-0.1.5-cp312-cp312-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:a195f35a255e00223162221d8ad3eb59f5ed12422249b3b982dff8d8a9490f56", size = 2603025 },
+    { url = "https://files.pythonhosted.org/packages/7d/b1/28ebfd44cfdd8434fbb20b84a8c6c06cd5126370e860ad486192955bae7f/avulto-0.1.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:19e806b0632fdf65667ca8697e74c746fd8927702720b5b9faee8509fbc7c5f8", size = 2740486 },
+    { url = "https://files.pythonhosted.org/packages/f3/f0/72be4b06707ff5c425b304d81349ee2f8f9e7279ad0cfde93f917c100fe0/avulto-0.1.5-cp312-cp312-win32.whl", hash = "sha256:4b4d462f2ad511c96485e49a2b4b843e54d4fe6d95aaca637373b2d9baad350b", size = 2093464 },
+    { url = "https://files.pythonhosted.org/packages/dc/3e/d2d9c716d1a7afd96b680519972f7af1eefa325b6d11e82fcfa128339c58/avulto-0.1.5-cp312-cp312-win_amd64.whl", hash = "sha256:57205a23c946e24b955e19066c9424fbd94e2515fc957114e5ce4ad39b3a628d", size = 2250185 },
+    { url = "https://files.pythonhosted.org/packages/4e/5f/7cd4ac32ed107bb792b89d5dd7388ab371c806efdf12669a57a7a5584ba4/avulto-0.1.5-cp313-cp313-macosx_10_12_x86_64.whl", hash = "sha256:544e9629e3b783997ed7d7a7c44b0d6804af44c11656136542763e91838016c0", size = 2494094 },
+    { url = "https://files.pythonhosted.org/packages/2c/44/ad6bd7bb75bdda688ac9c2ed7134e7d95023bec3c1b32bb61312e0333a65/avulto-0.1.5-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:33caccfa1c7eae404232f11d6f5ce4d12322535ae1fc161a6eb311b024872f41", size = 2358245 },
+    { url = "https://files.pythonhosted.org/packages/54/6c/d32879e150bded64c73c57287213b8c7ea4eea436ab7e86384576fc776bd/avulto-0.1.5-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:f6cc5eb895a011e98326728800b9fa9a65d0c61074ed7114ac90bc520bb72d33", size = 2634214 },
+    { url = "https://files.pythonhosted.org/packages/b6/ec/7a1a4ba5bec192a8de82a6a25abc2c0aa45a4279109f6d172a8adae57b56/avulto-0.1.5-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:44a0174ab9bcb2883209703e43bca81e2b08706fbba150217703f7bb478c528c", size = 2603025 },
+    { url = "https://files.pythonhosted.org/packages/ea/fa/f84cfeb8c43385f307db055036b9634bf314aaab867ee2a1c0c7fdfb4a5f/avulto-0.1.5-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0d3e27e45b47aab6efbdb0b173ebb275511943625cd1dfdc677f11a327021457", size = 2740489 },
+    { url = "https://files.pythonhosted.org/packages/0a/4f/d4accfe724f0037bad1442575b45b213361b056d89729ee9379344b900c6/avulto-0.1.5-cp313-cp313-win32.whl", hash = "sha256:ebf685422b2b3f1fa90d330a38d2630bfaa38eba8f51a6cb1f90ae2ead22c3ff", size = 2090648 },
+    { url = "https://files.pythonhosted.org/packages/45/45/2172daa3c13173f7e766e157c8110f969facb7eb516c3ae4667a85907c65/avulto-0.1.5-cp313-cp313-win_amd64.whl", hash = "sha256:0d5de46dead0ebe20ffb9c0411770ddaadb7e32516ebe25bf1f238806241225c", size = 2249750 },
 ]
 
 [[package]]
@@ -388,7 +399,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "avulto", specifier = ">=0.0.11" },
+    { name = "avulto", specifier = ">=0.1.5" },
     { name = "click", specifier = ">=8.1.7" },
     { name = "largestinteriorrectangle", specifier = ">=0.2.1" },
     { name = "llvmlite", specifier = "==0.43.0" },

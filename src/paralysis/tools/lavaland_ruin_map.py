@@ -22,12 +22,16 @@ RUIN_PADDING_COLOR = "#0000aaff"
 SAFE_ZONE_COLOR = "#000000ff"
 
 RUIN_RECT_COLOR = "#444444ff"
-RUIN_WALL_COLOR = "#8080ffff"
-RUIN_FLOOR_COLOR = "#7070ccff"
-RUIN_TILE_COLOR = "#8080ffff"
+RUIN_WALL_COLOR = "#7F2400ff"
+RUIN_FLOOR_COLOR = "#542715ff"
+RUIN_TILE_COLOR = "#7F2400ff"
 RUIN_NEARSPACE_COLOR = "#6060a0ff"
 TEXT_COLOR = "#ffffffff"
 
+LAVALAND_DEFAULT_COLOR = "#0A0302ff"
+LAVALAND_LAVA_COLOR = "#821100ff"
+LAVALAND_FLOOR_COLOR = "#303030ff"
+LAVALAND_ROCK_COLOR = "#808080ff"
 
 @dataclass(frozen=True)
 class RuinPlacement:
@@ -82,7 +86,9 @@ def DMCOORD(x, y):
 
 
 def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path):
-    ruin_root = env_root / "_maps/map_files/RandomRuins/SpaceRuins"
+    LAVALAND = env_root / "_maps/map_files/generic/lavaland_baselayer.dmm"
+
+    ruin_root = env_root / "_maps/map_files/RandomRuins/LavaRuins"
     ZLEVELS = Zlevels()
 
     font_size = 48
@@ -91,33 +97,17 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
     )
     fnt = ImageFont.truetype(font_file, size=font_size)
 
-    space_ruins: list[RuinPlacement] = list()
-
-    transition_border = 6
-    safe_border = 14  # TRANSITIONEDGE + SPACERUIN_MAP_EDGE_PAD
-    transition_rect = (
-        transition_border,
-        transition_border,
-        255 - transition_border,
-        255 - transition_border,
-    )
-
-    safe_rect = (
-        transition_border + safe_border,
-        transition_border + safe_border,
-        255 - transition_border - safe_border,
-        255 - transition_border - safe_border,
-    )
+    lavaland_ruins: list[RuinPlacement] = list()
 
     for ruin in ruin_data.values():
         coords = [int(c) for c in ruin["coords"].split(",")]
         if not (ruin_root / ruin["map"]).exists():
             continue
 
-        space_ruins.append(RuinPlacement(ruin["map"], coords))
+        lavaland_ruins.append(RuinPlacement(ruin["map"], coords))
         ZLEVELS.get_zlevel(coords[2])
 
-    for z_level in ZLEVELS.levels:
+    for z_level in ZLEVELS.levels:        
         image = Image.new(
             size=(255, 255),
             mode="RGBA",
@@ -127,10 +117,28 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
 
         draw.rectangle([0, 0, 255, 255], fill=TRANSITZONE_COLOR)
 
-        draw.rectangle(transition_rect, fill=RUIN_PADDING_COLOR)
-        draw.rectangle(safe_rect, fill=SAFE_ZONE_COLOR)
+        lavaland_dmm = DMM.from_file(LAVALAND)
+        for coord in lavaland_dmm.coords():
+            tile = lavaland_dmm.tiledef(*coord)
+            is_lava = tile.turf_path.child_of("/turf/simulated/floor/lava")
+            is_floor = tile.turf_path.child_of("/turf/simulated/floor/plating/asteroid/basalt")
+            is_rock = tile.turf_path.child_of("/turf/simulated/mineral")
 
-        for ruin in space_ruins:
+            color = LAVALAND_DEFAULT_COLOR
+            if is_lava:
+                color = LAVALAND_LAVA_COLOR
+            if is_floor:
+                color = LAVALAND_FLOOR_COLOR
+            if is_rock:
+                color = LAVALAND_ROCK_COLOR
+
+            translated_coord = DMCOORD(coord[0], coord[1])
+            draw.point(
+                [translated_coord[0], translated_coord[1]],
+                fill=color,
+            )            
+
+        for ruin in lavaland_ruins:
             if ruin.coords[2] != z_level.level:
                 continue
 
@@ -190,11 +198,11 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
             fill=None,
         )
 
-        for ruin in space_ruins:
+        for ruin in lavaland_ruins:
             if ruin.coords[2] != z_level.level:
                 continue
 
-            msg = ruin.map.replace(".dmm", "")
+            msg = ruin.map.replace(".dmm", "").replace("lavaland_surface_", "")
             textbox_center = list(
                 p * ZOOM_LEVEL for p in DMCOORD(ruin.coords[0], ruin.coords[1])
             )
@@ -212,11 +220,9 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
                 f"ruin ruin_rect={ruin_rect} center={ruin.coords} textbox_center={textbox_center} msg={msg} rect={rect} text_xy={text_xy}"
             )
 
-        s = f"ROUND #{round_id}: Z-LEVEL {ZLEVELS.ruin_level(z_level.level)} / {len(ZLEVELS.levels)}"
+        s = f"ROUND #{round_id}"
 
         for msg, y_pos in (
-            ("TRANSITION EDGE", font_size / 2 - 10),
-            ("RUIN PLACEMENT PADDING", 56),
             (s, 255 * ZOOM_LEVEL - 56),
         ):
             rect = draw.textbbox(xy=(255 * ZOOM_LEVEL / 2, y_pos), text=msg, font=fnt)
@@ -228,7 +234,7 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
 
             draw.text(text_xy, msg, fill=TEXT_COLOR, font=fnt)
 
-        image.save(output_path / f"space_ruin_{z_level.level}@4x.png")
+            image.save(output_path / f"lavaland_ruin_{z_level.level}@4x.png")
 
 
 @click.command()
