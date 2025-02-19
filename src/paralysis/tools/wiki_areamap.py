@@ -168,6 +168,7 @@ ENGINEERING_AREAS = [
     Area("/area/station/engineering/secure_storage", Colors.ENGINEERING),
     Area("/area/station/engineering/smes", Colors.ENGINEERING),
     Area("/area/station/engineering/tech_storage", Colors.ENGINEERING),
+    Area("/area/station/engineering/engine", Colors.ENGINEERING),
     Area("/area/station/maintenance/assembly_line", Colors.ENGINEERING),
     Area("/area/station/maintenance/electrical", Colors.ENGINEERING),
     Area("/area/station/public/construction", Colors.ENGINEERING),
@@ -178,6 +179,7 @@ ENGINEERING_AREAS = [
     Area("/area/station/engineering/atmos/asteroid_filtering", Colors.ENGINEERING),
     Area("/area/station/engineering/atmos/asteroid_maint", Colors.ENGINEERING),
     Area("/area/station/engineering/atmos/storage", Colors.ENGINEERING),
+    Area("/area/station/engineering/transmission_laser", Colors.ENGINEERING),
 ]
 
 ATMOS_AREAS = [
@@ -379,6 +381,7 @@ SCIENCE_AREAS = [
     Area("/area/station/science/toxins/mixing", Colors.SCIENCE, "Toxins"),
     Area("/area/station/science/research", Colors.SCIENCE),
     Area("/area/station/science/break_room", Colors.SCIENCE),
+    Area("/area/station/science/testrange", Colors.SCIENCE),
 ]
 
 AI_SAT_AREAS = [
