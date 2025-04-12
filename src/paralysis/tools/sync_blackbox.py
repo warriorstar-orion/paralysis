@@ -10,7 +10,9 @@ from paralysis.network import make_cached_limiter_session
 from paralysis.settings import ParalysisSettings
 
 
-def sync_blackbox_database(connection_string: str, api_url: str, cache_db: str, enable_logging: bool):
+def sync_blackbox_database(
+    connection_string: str, api_url: str, cache_db: str, enable_logging: bool
+):
     if enable_logging:
         logger.add(
             "paralysis_sync_blackbox.log",
@@ -41,4 +43,9 @@ def main(settings):
         ParalysisSettings, appname="paralysis", config_files=[settings]
     )
 
-    sync_blackbox_database(settings.connection_string, settings.api_url, settings.cache_db, settings.log_tasks)
+    sync_blackbox_database(
+        settings.connection_string,
+        settings.api_url,
+        settings.cache_db,
+        settings.log_tasks,
+    )

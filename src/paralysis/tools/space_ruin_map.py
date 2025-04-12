@@ -233,7 +233,11 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
 
 @click.command()
 @click.option("--settings", required=True, help="Location of your settings.toml file.")
-@click.option("--output_path", required=True, help="The output path where per-round directories are created.")
+@click.option(
+    "--output_path",
+    required=True,
+    help="The output path where per-round directories are created.",
+)
 @click.option("--round_id", required=True, help="The round ID to create maps from.")
 def main(settings, output_path: Path, round_id: int):
     settings: ParalysisSettings = ts.load(
@@ -250,4 +254,3 @@ def main(settings, output_path: Path, round_id: int):
         output_path = Path(output_path) / str(round.id)
         output_path.mkdir(parents=True, exist_ok=True)
         render_z_levels(ruin_placements, output_path, round_id, settings.paradise_root)
-

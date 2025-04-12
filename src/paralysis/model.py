@@ -80,6 +80,9 @@ class Feedback(Base):
     def __getitem__(self, key):
         return self.json["data"].__getitem__(key)
 
+    def get(self, key, default=None):
+        return self.json["data"].get(key, default)
+
     @cache
     def json_data(self):
         return self.json["data"]

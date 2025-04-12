@@ -33,6 +33,7 @@ LAVALAND_LAVA_COLOR = "#821100ff"
 LAVALAND_FLOOR_COLOR = "#303030ff"
 LAVALAND_ROCK_COLOR = "#808080ff"
 
+
 @dataclass(frozen=True)
 class RuinPlacement:
     map: str
@@ -107,7 +108,7 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
         lavaland_ruins.append(RuinPlacement(ruin["map"], coords))
         ZLEVELS.get_zlevel(coords[2])
 
-    for z_level in ZLEVELS.levels:        
+    for z_level in ZLEVELS.levels:
         image = Image.new(
             size=(255, 255),
             mode="RGBA",
@@ -121,7 +122,9 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
         for coord in lavaland_dmm.coords():
             tile = lavaland_dmm.tiledef(*coord)
             is_lava = tile.turf_path.child_of("/turf/simulated/floor/lava")
-            is_floor = tile.turf_path.child_of("/turf/simulated/floor/plating/asteroid/basalt")
+            is_floor = tile.turf_path.child_of(
+                "/turf/simulated/floor/plating/asteroid/basalt"
+            )
             is_rock = tile.turf_path.child_of("/turf/simulated/mineral")
 
             color = LAVALAND_DEFAULT_COLOR
@@ -136,7 +139,7 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
             draw.point(
                 [translated_coord[0], translated_coord[1]],
                 fill=color,
-            )            
+            )
 
         for ruin in lavaland_ruins:
             if ruin.coords[2] != z_level.level:
@@ -222,9 +225,7 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
 
         s = f"ROUND #{round_id}"
 
-        for msg, y_pos in (
-            (s, 255 * ZOOM_LEVEL - 56),
-        ):
+        for msg, y_pos in ((s, 255 * ZOOM_LEVEL - 56),):
             rect = draw.textbbox(xy=(255 * ZOOM_LEVEL / 2, y_pos), text=msg, font=fnt)
             (left, top, right, bottom) = rect
             text_xy = (
@@ -236,10 +237,16 @@ def render_z_levels(ruin_data, output_path: Path, round_id: int, env_root: Path)
 
             image.save(output_path / f"lavaland_ruin_{z_level.level}@4x.png")
 
+    print(repr([x.map for x in lavaland_ruins]))
+
 
 @click.command()
 @click.option("--settings", required=True, help="Location of your settings.toml file.")
-@click.option("--output_path", required=True, help="The output path where per-round directories are created.")
+@click.option(
+    "--output_path",
+    required=True,
+    help="The output path where per-round directories are created.",
+)
 @click.option("--round_id", required=True, help="The round ID to create maps from.")
 def main(settings, output_path: Path, round_id: int):
     settings: ParalysisSettings = ts.load(
@@ -256,4 +263,3 @@ def main(settings, output_path: Path, round_id: int):
         output_path = Path(output_path) / str(round.id)
         output_path.mkdir(parents=True, exist_ok=True)
         render_z_levels(ruin_placements, output_path, round_id, settings.paradise_root)
-
