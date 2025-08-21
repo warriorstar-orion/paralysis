@@ -255,11 +255,15 @@ def main(settings, output_path: Path, round_id: int):
 
     engine = create_engine(settings.connection_string)
     with Session(engine) as session:
-        round = session.get(Round, int(round_id))
-        if not round.has_feedback("ruin_placement"):
-            raise RuntimeError(f"no ruin placement found for round ID {round.id}")
+        # round = session.get(Round, int(round_id))
+        # if not round.has_feedback("ruin_placement"):
+        #     raise RuntimeError(f"no ruin placement found for round ID {round.id}")
 
-        ruin_placements = round.feedback("ruin_placement")
-        output_path = Path(output_path) / str(round.id)
+        # ruin_placements = round.feedback("ruin_placement")
+        output_path = Path(output_path) / str(round_id)
         output_path.mkdir(parents=True, exist_ok=True)
+        ruin_placements = {
+            "1": {"map": "lavaland_surface_mining_telecomms.dmm", "coords": "117,150,8"},
+            "2": {"map": "lavaland_surface_legiongate.dmm", "coords": "125,71,7"},
+        }
         render_z_levels(ruin_placements, output_path, round_id, settings.paradise_root)

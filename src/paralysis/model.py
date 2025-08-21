@@ -7,6 +7,7 @@ from sqlalchemy import (
     CHAR,
     Column,
     DateTime,
+    Double,
     Enum,
     Float,
     ForeignKey,
@@ -220,13 +221,86 @@ class Round(Base):
 
             return rnd
 
-    def feedback(self, k):
+    def feedback(self, k) -> Feedback | None:
         for x in self.feedbacks:
             if x.key_name == k:
                 return x
 
-    def has_feedback(self, name):
+    def has_feedback(self, name) -> bool:
         return any(x.key_name == name for x in self.feedbacks)
+
+    @property
+    def serverstart_population(self):
+        if not self.populations:
+            return None
+        return sorted(self.populations, key=lambda x: x.time)[0]
+
+    @property
+    def serverstop_population(self):
+        if not self.populations:
+            return None
+        return sorted(self.populations, key=lambda x: x.time, reverse=True)[0]
+
+    @property
+    def roundstart_population(self):
+        if not self.populations:
+            return None
+        if not self.start_datetime:
+            return sorted([x for x in self.populations], key=lambda x: x.time)[0]
+
+        pops = sorted(
+            [x for x in self.populations if x.time >= self.start_datetime],
+            key=lambda x: x.time,
+        )
+        if pops:
+            return pops[0]
+
+    @property
+    def roundend_population(self):
+        if not self.populations:
+            return None
+        if not self.end_datetime:
+            return sorted([x for x in self.populations], key=lambda x: x.time)[-1]
+
+        pops = sorted(
+            [x for x in self.populations if x.time <= self.end_datetime],
+            key=lambda x: x.time,
+        )
+        if pops:
+            return pops[-1]
+
+    @property
+    def highest_player_count(self) -> int:
+        return max(p.playercount for p in self.populations)
+
+    def roundstart_job_count(self, with_assts=False) -> int:
+        if with_assts:
+            return sum(
+                [y.get("roundstart", 0) for x, y in self.feedback("manifest").items()]
+            )
+        return sum(
+            [
+                y.get("roundstart", 0)
+                for x, y in self.feedback("manifest").items()
+                if x != "Assistant"
+            ]
+        )
+
+    def manifest_total(self, roundstart=False, latejoin=False) -> int:
+        if not (roundstart or latejoin):
+            raise RuntimeError("roundstart or latejoine must be True")
+        manifest = self.feedback("manifest")
+        if not manifest:
+            return 0
+        total = 0
+
+        for counts in manifest.values():
+            if roundstart:
+                total += counts.get("roundstart", 0)
+            if latejoin:
+                total += counts.get("latejoin", 0)
+
+        return total
 
     def roundstart_ready_count(self, with_assts=False):
         if not self.has_feedback("job_preferences"):
@@ -254,15 +328,27 @@ class Round(Base):
     def highest_player_count(self):
         return max(p.playercount for p in self.populations)
 
-    def roundstart_job_count(self, with_assts=False):
+    def roundstart_job_count(self, with_assts=False) -> int:
+        manifest = self.feedback("manifest")
+        if not manifest:
+            return 0
+
         if with_assts:
-            return sum(
-                [y.get("roundstart", 0) for x, y in self.feedback("manifest").items()]
-            )
+            return sum([y.get("roundstart", 0) for x, y in manifest.items()])
         return sum(
-            [
-                y.get("roundstart", 0)
-                for x, y in self.feedback("manifest").items()
-                if x != "Assistant"
-            ]
+            [y.get("roundstart", 0) for x, y in manifest.items() if x != "Assistant"]
         )
+
+
+class ProfilerSample(Base):
+    __tablename__ = "profiler_sample"
+
+    id = Column(INTEGER(11), primary_key=True)
+    round_id: Mapped[int] = mapped_column(ForeignKey("round.id"))
+    sample_time = Column(DateTime, nullable=False)
+    proc_path = Column(String(300), nullable=False)
+    self_cpu = Column(Double)
+    total_cpu = Column(Double)
+    real_time = Column(Double)
+    overtime = Column(Double)
+    proc_calls = Column(INTEGER(11))

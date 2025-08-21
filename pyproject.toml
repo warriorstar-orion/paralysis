@@ -1,19 +1,16 @@
 [project]
 name = "paralysis"
-version = "0.1.1"
+version = "0.1.5"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "avulto>=0.1.5",
     "click>=8.1.7",
-    "ipython>=8.32.0",
-    "largestinteriorrectangle>=0.2.1",
-    "llvmlite==0.43.0",
+    # "largestinteriorrectangle>=0.2.1",
     "loguru>=0.7.2",
     "mysqlclient>=2.2.4",
-    "numba==0.60.0",
-    "numpy==2.0",
+    "numpy>=2.3.2",
     "opencv-python>=4.10.0.84",
     "pandas>=2.2.3",
     "pillow>=10.4.0",
@@ -34,6 +31,7 @@ testmerges = "paralysis.blackbox.testmerges:main"
 sync_blackbox = "paralysis.tools.sync_blackbox:main"
 create_tables = "paralysis.tools.create_tables:main"
 map_stitch = "paralysis.tools.map_stitch:main"
+update_profilsesamples = "paralysis.tools.update_profilesamples:main"
 
 [build-system]
 requires = ["hatchling"]

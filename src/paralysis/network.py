@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from requests import Session
 from requests_cache import CacheMixin
 from requests_ratelimiter import LimiterMixin, SQLiteBucket
@@ -10,7 +12,7 @@ class CachedLimiterSession(CacheMixin, LimiterMixin, Session):
     """
 
 
-def make_cached_limiter_session(cache_db: str):
+def make_cached_limiter_session(cache_db: str | Path):
     return CachedLimiterSession(
         per_minute=500,
         per_hour=3600,

@@ -1,4 +1,5 @@
 from pathlib import Path
+import urllib
 
 from sqlalchemy import create_engine
 from sqlalchemy import Engine
@@ -11,10 +12,12 @@ class ParalysisSettings:
     working_directory: Path
     log_tasks: bool
     paradise_root: Path
-    connection_string: str = ts.secret()
     profile_proc_paths: list[str]
     cache_db: Path
+    connection_string: str = ts.secret()
 
+    def parastats(self, endpoint, **kwargs):
+        return self.api_url + endpoint + '?' + urllib.parse.urlencode(kwargs)
 
 def make_engine(config_file: str | Path) -> Engine:
     settings = ts.load(
